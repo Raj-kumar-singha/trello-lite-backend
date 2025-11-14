@@ -19,10 +19,11 @@ router.get('/project/:projectId', async (req, res, next) => {
       return res.status(404).json({ message: 'Project not found' });
     }
 
+    const isAdmin = req.user.role === 'admin';
     const isOwner = project.owner.toString() === req.user._id.toString();
     const isMember = project.members.some(member => member.toString() === req.user._id.toString());
 
-    if (!isOwner && !isMember) {
+    if (!isAdmin && !isOwner && !isMember) {
       return res.status(403).json({ message: 'Access denied' });
     }
 

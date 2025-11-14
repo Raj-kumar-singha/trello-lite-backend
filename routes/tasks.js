@@ -222,10 +222,11 @@ router.put('/:id', async (req, res, next) => {
 
     const Project = (await import('../models/Project.js')).default;
     const project = await Project.findById(task.project);
+    const isAdmin = req.user.role === 'admin';
     const isOwner = project.owner.toString() === req.user._id.toString();
     const isMember = project.members.some(member => member.toString() === req.user._id.toString());
 
-    if (!isOwner && !isMember) {
+    if (!isAdmin && !isOwner && !isMember) {
       return res.status(403).json({ message: 'Access denied' });
     }
 
@@ -305,10 +306,11 @@ router.delete('/:id', async (req, res, next) => {
 
     const Project = (await import('../models/Project.js')).default;
     const project = await Project.findById(task.project);
+    const isAdmin = req.user.role === 'admin';
     const isOwner = project.owner.toString() === req.user._id.toString();
     const isMember = project.members.some(member => member.toString() === req.user._id.toString());
 
-    if (!isOwner && !isMember) {
+    if (!isAdmin && !isOwner && !isMember) {
       return res.status(403).json({ message: 'Access denied' });
     }
 

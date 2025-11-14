@@ -3,7 +3,7 @@ import { body, validationResult } from 'express-validator';
 import Project from '../models/Project.js';
 import Task from '../models/Task.js';
 import Activity from '../models/Activity.js';
-import { protect, checkProjectAccess } from '../middleware/auth.js';
+import { protect, checkProjectAccess, checkProjectOwner, isAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -124,12 +124,9 @@ router.put('/:id', checkProjectAccess, [
 
 // @route   DELETE /api/projects/:id
 // @desc    Delete project
-// @access  Private
-router.delete('/:id', checkProjectAccess, async (req, res, next) => {
+// @access  Private (Owner or Admin only)
+router.delete('/:id', checkProjectAccess, checkProjectOwner, async (req, res, next) => {
   try {
-    if (req.project.owner.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'Only project owner can delete the project' });
-    }
 
     await Task.deleteMany({ project: req.params.id });
     await Activity.deleteMany({ project: req.params.id });

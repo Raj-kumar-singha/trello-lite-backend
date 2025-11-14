@@ -36,7 +36,8 @@ router.post('/register', [
         id: user._id,
         name: user.name,
         email: user.email,
-        avatar: user.avatar
+        avatar: user.avatar,
+        role: user.role
       }
     });
   } catch (error) {
@@ -77,7 +78,8 @@ router.post('/login', [
         id: user._id,
         name: user.name,
         email: user.email,
-        avatar: user.avatar
+        avatar: user.avatar,
+        role: user.role
       }
     });
   } catch (error) {
@@ -95,7 +97,8 @@ router.get('/me', protect, async (req, res, next) => {
         id: req.user._id,
         name: req.user.name,
         email: req.user.email,
-        avatar: req.user.avatar
+        avatar: req.user.avatar,
+        role: req.user.role
       }
     });
   } catch (error) {
