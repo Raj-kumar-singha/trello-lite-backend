@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const activitySchema = new mongoose.Schema({
   type: {
     type: String,
-    enum: ['task_created', 'task_updated', 'task_deleted', 'task_assigned', 'task_status_changed', 'comment_added', 'member_added', 'member_removed'],
+    enum: ['task_created', 'task_updated', 'task_deleted', 'task_assigned', 'task_unassigned', 'task_status_changed', 'comment_added', 'member_added', 'member_removed'],
     required: true
   },
   description: {
